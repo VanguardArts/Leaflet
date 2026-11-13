@@ -661,10 +661,29 @@ function bindToolbarEvents(): void {
   bind("#btn-export", () => saveToDisk());
   bind("#btn-undo", () => undo());
   bind("#btn-theme", () => toggleTheme());
-  bind("#btn-collapse", () => {
-    expanded.clear();
-    render();
-  });
+  bind("#btn-expand", () => expandAll());
+  bind("#btn-collapse", () => collapseAll());
+}
+
+function collectFolderIds(nodes: Node[], acc: Set<string>): void {
+  for (const n of nodes) {
+    if (n.type === "folder") {
+      acc.add(n.id);
+      collectFolderIds(n.children, acc);
+    }
+  }
+}
+
+function expandAll(): void {
+  const ids = new Set<string>();
+  collectFolderIds(forest, ids);
+  for (const id of ids) expanded.add(id);
+  render();
+}
+
+function collapseAll(): void {
+  expanded.clear();
+  render();
 }
 
 function selectedFolderId(): string | null {
@@ -740,7 +759,8 @@ function buildShell(): void {
         <button id="btn-import" class="btn icon-btn" title="Import (Ctrl+O)">⤓ Import</button>
         <button id="btn-export" class="btn icon-btn" title="Save / Export (Ctrl+S)">⇧ Save</button>
         <button id="btn-undo" class="btn icon-btn" title="Undo (Ctrl+Z)">↶ Undo</button>
-        <button id="btn-collapse" class="btn icon-btn" title="Collapse all">⊟ Collapse</button>
+        <button id="btn-expand" class="btn icon-btn" title="Expand all folders">⤢ Expand all</button>
+        <button id="btn-collapse" class="btn icon-btn" title="Collapse all folders">⊟ Collapse all</button>
         <button id="btn-theme" class="btn icon-btn" title="Toggle theme"><span class="icon">☾</span></button>
       </div>
     </header>
