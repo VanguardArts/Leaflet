@@ -4,6 +4,7 @@
 
 import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
 import { readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import type { Node } from "./model";
 import {
   cloneForest,
@@ -471,9 +472,13 @@ function beginInlineRename(id: string): void {
 // External open
 // ---------------------------------------------------------------------------
 
-function openExternal(node: Node): void {
+async function openExternal(node: Node): Promise<void> {
   if (node.type !== "bookmark" || !node.url) return;
-  window.open(node.url, "_blank", "noopener,noreferrer");
+  if (isTauri()) {
+    await openUrl(node.url);
+  } else {
+    window.open(node.url, "_blank", "noopener,noreferrer");
+  }
 }
 
 // ---------------------------------------------------------------------------
