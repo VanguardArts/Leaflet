@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Leaflet",
+  "version": "0.1.0",
+  "identifier": "com.vanguardarts.leaflet",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Leaflet — Your little corner of the internet",
+        "width": 1240,
+        "height": 820,
+        "minWidth": 760,
+        "minHeight": 520,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Utility",
+    "shortDescription": "A free and open-source bookmark manager.",
+    "longDescription": "Leaflet — Your little corner of the internet. A native, FOSS bookmark manager with a tree editor, drag-and-drop, search, and Netscape HTML import/export.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
