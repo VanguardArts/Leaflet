@@ -50,17 +50,17 @@
 
 /* ---- Light ---- */
 :root[data-theme="light"] {
-  --bg: #e8efe2;
-  --bg: color-mix(in srgb, #ffffff 78%, var(--accent) 22%);
-  --bg-elev: #f4f8ef;
-  --bg-elev: color-mix(in srgb, #ffffff 87%, var(--accent) 13%);
-  --bg-raised: #dde8d0;
-  --bg-raised: color-mix(in srgb, #ffffff 72%, var(--accent) 28%);
-  --surface: #e8efe2;
-  --border: #cdd8c6;
-  --border: color-mix(in srgb, #d5d5d5 58%, var(--accent) 42%);
-  --border-soft: #e0e9d9;
-  --border-soft: color-mix(in srgb, #e3e3e3 76%, var(--accent) 24%);
+  --bg: #ddefd1;
+  --bg: color-mix(in srgb, #ffffff 70%, var(--accent) 30%);
+  --bg-elev: #edf5e5;
+  --bg-elev: color-mix(in srgb, #ffffff 82%, var(--accent) 18%);
+  --bg-raised: #d1e8bd;
+  --bg-raised: color-mix(in srgb, #ffffff 64%, var(--accent) 36%);
+  --surface: #ddefd1;
+  --border: #bcd8a8;
+  --border: color-mix(in srgb, #d5d5d5 50%, var(--accent) 50%);
+  --border-soft: #d4e8c4;
+  --border-soft: color-mix(in srgb, #e3e3e3 68%, var(--accent) 32%);
   --text: #1d2023;
   --text-dim: #5b6065;
   --text-faint: #91969b;
