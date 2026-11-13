@@ -50,17 +50,17 @@
 
 /* ---- Light ---- */
 :root[data-theme="light"] {
-  --bg: #f6f8f2;
-  --bg: color-mix(in srgb, #f7f7f7 96%, var(--accent) 4%);
-  --bg-elev: #ffffff;
-  --bg-elev: color-mix(in srgb, #ffffff 98%, var(--accent) 2%);
-  --bg-raised: #eef2e9;
-  --bg-raised: color-mix(in srgb, #f0f0f0 94%, var(--accent) 6%);
-  --surface: #f2f5ee;
-  --border: #dde4d8;
-  --border: color-mix(in srgb, #e0e0e0 86%, var(--accent) 14%);
-  --border-soft: #eaefe4;
-  --border-soft: color-mix(in srgb, #ececec 94%, var(--accent) 6%);
+  --bg: #eef2ea;
+  --bg: color-mix(in srgb, #ffffff 85%, var(--accent) 15%);
+  --bg-elev: #f7faf5;
+  --bg-elev: color-mix(in srgb, #ffffff 92%, var(--accent) 8%);
+  --bg-raised: #e3ead8;
+  --bg-raised: color-mix(in srgb, #ffffff 80%, var(--accent) 20%);
+  --surface: #eef2ea;
+  --border: #d4ddd0;
+  --border: color-mix(in srgb, #d5d5d5 70%, var(--accent) 30%);
+  --border-soft: #e6ece2;
+  --border-soft: color-mix(in srgb, #e3e3e3 83%, var(--accent) 17%);
   --text: #1d2023;
   --text-dim: #5b6065;
   --text-faint: #91969b;
@@ -156,6 +156,12 @@
   --accent-soft: rgba(91, 102, 114, 0.12);
   --accent-glow: rgba(91, 102, 114, 0.22);
   --mark: rgba(91, 102, 114, 0.22);
+}
+
+/* Dark "leaf" (green) — a touch deeper, darker main background */
+:root[data-theme="dark"][data-accent="leaf"] {
+  --bg: #0c110d;
+  --bg: color-mix(in srgb, #070907 87%, #5d9640 13%);
 }
 
 * {
