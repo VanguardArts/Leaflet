@@ -69,6 +69,69 @@ function toggleTheme(): void {
 }
 
 // ---------------------------------------------------------------------------
+// Accent (color theme)
+// ---------------------------------------------------------------------------
+
+type Accent = "leaf" | "ocean" | "berry" | "ember" | "rose" | "cyan";
+
+const ACCENTS: { id: Accent; label: string; color: string }[] = [
+  { id: "leaf", label: "Leaf", color: "#7ed957" },
+  { id: "ocean", label: "Ocean", color: "#5aa8ff" },
+  { id: "berry", label: "Berry", color: "#b78cff" },
+  { id: "ember", label: "Ember", color: "#ffa04d" },
+  { id: "rose", label: "Rose", color: "#ff6f91" },
+  { id: "cyan", label: "Cyan", color: "#4dd6cf" },
+];
+
+const ACCENT_KEY = "leaflet.accent";
+
+function loadAccent(): Accent {
+  const saved = localStorage.getItem(ACCENT_KEY);
+  return ACCENTS.some((a) => a.id === saved) ? (saved as Accent) : "leaf";
+}
+
+let accent: Accent = loadAccent();
+
+function applyAccent(): void {
+  document.documentElement.dataset.accent = accent;
+  localStorage.setItem(ACCENT_KEY, accent);
+}
+
+function setAccent(id: Accent): void {
+  accent = id;
+  applyAccent();
+  closePalette();
+  buildPalette();
+}
+
+function togglePalette(): void {
+  const p = document.querySelector<HTMLElement>("#palette");
+  if (p) p.hidden = !p.hidden;
+}
+
+function closePalette(): void {
+  const p = document.querySelector<HTMLElement>("#palette");
+  if (p) p.hidden = true;
+}
+
+function buildPalette(): void {
+  const grid = document.querySelector<HTMLElement>("#palette .palette-grid");
+  if (!grid) return;
+  grid.replaceChildren();
+  for (const a of ACCENTS) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "swatch" + (a.id === accent ? " active" : "");
+    btn.dataset.accent = a.id;
+    btn.title = a.label;
+    btn.setAttribute("aria-label", a.label);
+    btn.style.setProperty("--c", a.color);
+    btn.addEventListener("click", () => setAccent(a.id));
+    grid.appendChild(btn);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Rendering
 // ---------------------------------------------------------------------------
 
@@ -661,6 +724,7 @@ function bindToolbarEvents(): void {
   bind("#btn-export", () => saveToDisk());
   bind("#btn-undo", () => undo());
   bind("#btn-theme", () => toggleTheme());
+  bind("#btn-accent", () => togglePalette());
   bind("#btn-expand", () => expandAll());
   bind("#btn-collapse", () => collapseAll());
 }
@@ -761,7 +825,12 @@ function buildShell(): void {
         <button id="btn-undo" class="btn icon-btn" title="Undo (Ctrl+Z)">↶ Undo</button>
         <button id="btn-expand" class="btn icon-btn" title="Expand all folders">⤢ Expand all</button>
         <button id="btn-collapse" class="btn icon-btn" title="Collapse all folders">⊟ Collapse all</button>
+        <button id="btn-accent" class="btn icon-btn" title="Color theme"><span class="swatch-dot"></span></button>
         <button id="btn-theme" class="btn icon-btn" title="Toggle theme"><span class="icon">☾</span></button>
+      </div>
+      <div id="palette" class="palette" hidden>
+        <div class="palette-title">Color theme</div>
+        <div class="palette-grid"></div>
       </div>
     </header>
 
@@ -810,9 +879,21 @@ function init(): void {
   buildShell();
   loadInitialData();
   applyTheme();
+  applyAccent();
+  buildPalette();
   bindTreeEvents();
   bindToolbarEvents();
   bindGlobalShortcuts();
+
+  // Close the color palette when clicking outside it.
+  document.addEventListener("click", (e) => {
+    const p = document.querySelector<HTMLElement>("#palette");
+    if (!p || p.hidden) return;
+    const target = e.target as HTMLElement;
+    if (!target.closest("#palette") && !target.closest("#btn-accent")) {
+      p.hidden = true;
+    }
+  });
 
   // Auto-expand the first level so the tree isn't a wall of collapsed folders.
   for (const node of forest) {
