@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/vanguard-arts/leaflet/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg" alt="License: GPL-3.0-or-later"></a>
+  <a href="https://github.com/VanguardArts/Leaflet/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg" alt="License: GPL-3.0-or-later"></a>
   <a href="#-support"><img src="https://img.shields.io/badge/sponsor-❤-ea4aaa.svg" alt="Sponsor"></a>
 </p>
 
@@ -25,7 +25,7 @@ The name is deliberate: a *leaflet* is both a small leaf and a small printed
 publication — and it lends itself to a tree. Everything you save is a little
 leaf on your own tree of the internet.
 
-> Built by **[Vanguard Arts Software](https://github.com/vanguard-arts)**.
+> Built by **[Vanguard Arts Software](https://github.com/VanguardArts)**.
 
 ---
 
@@ -168,7 +168,7 @@ Every bit helps keep a small independent studio making friendly, open tools.
 
 ## 📄 License
 
-[GPL-3.0-or-later](LICENSE) © [Vanguard Arts Software](https://github.com/vanguard-arts).
+[GPL-3.0-or-later](LICENSE) © [Vanguard Arts Software](https://github.com/VanguardArts).
 
 Leaflet is free software: you can redistribute and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,

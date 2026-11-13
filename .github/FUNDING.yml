@@ -1,6 +1,3 @@
 # Support Leaflet's development.
-# Replace `vanguard-arts` with the actual GitHub username that owns the
-# GitHub Sponsors account, and add a Ko-fi / Liberapay link under `custom` if desired.
-
-github: [vanguard-arts]
+github: [VanguardArts]
 custom: []
