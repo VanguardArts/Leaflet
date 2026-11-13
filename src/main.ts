@@ -72,7 +72,7 @@ function toggleTheme(): void {
 // Accent (color theme)
 // ---------------------------------------------------------------------------
 
-type Accent = "leaf" | "ocean" | "berry" | "ember" | "rose" | "cyan";
+type Accent = "leaf" | "ocean" | "berry" | "ember" | "rose" | "cyan" | "slate";
 
 const ACCENTS: { id: Accent; label: string; color: string }[] = [
   { id: "leaf", label: "Leaf", color: "#7ed957" },
@@ -81,6 +81,7 @@ const ACCENTS: { id: Accent; label: string; color: string }[] = [
   { id: "ember", label: "Ember", color: "#ffa04d" },
   { id: "rose", label: "Rose", color: "#ff6f91" },
   { id: "cyan", label: "Cyan", color: "#4dd6cf" },
+  { id: "slate", label: "Slate", color: "#9aa5b1" },
 ];
 
 const ACCENT_KEY = "leaflet.accent";

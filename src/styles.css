@@ -23,14 +23,19 @@
 :root,
 :root[data-theme="dark"] {
   --bg: #0f1410;
+  --bg: color-mix(in srgb, #0d0d0d 84%, var(--accent) 16%);
   --bg-elev: #151c16;
+  --bg-elev: color-mix(in srgb, #141414 88%, var(--accent) 12%);
   --bg-raised: #1c251d;
+  --bg-raised: color-mix(in srgb, #1b1b1b 85%, var(--accent) 15%);
   --surface: #22301f17;
   --border: #2a372b;
+  --border: color-mix(in srgb, #292929 78%, var(--accent) 22%);
   --border-soft: #232c24;
-  --text: #e7efe6;
-  --text-dim: #9aa89a;
-  --text-faint: #6d7a6e;
+  --border-soft: color-mix(in srgb, #202020 85%, var(--accent) 15%);
+  --text: #e7e9ec;
+  --text-dim: #9aa0a8;
+  --text-faint: #6d737b;
   --accent: #7ed957;
   --accent-strong: #9ceb7f;
   --accent-soft: rgba(126, 217, 87, 0.14);
@@ -46,14 +51,19 @@
 /* ---- Light ---- */
 :root[data-theme="light"] {
   --bg: #f6f8f2;
+  --bg: color-mix(in srgb, #f7f7f7 96%, var(--accent) 4%);
   --bg-elev: #ffffff;
+  --bg-elev: color-mix(in srgb, #ffffff 98%, var(--accent) 2%);
   --bg-raised: #eef2e9;
+  --bg-raised: color-mix(in srgb, #f0f0f0 94%, var(--accent) 6%);
   --surface: #f2f5ee;
   --border: #dde4d8;
+  --border: color-mix(in srgb, #e0e0e0 86%, var(--accent) 14%);
   --border-soft: #eaefe4;
-  --text: #1d281d;
-  --text-dim: #5b675a;
-  --text-faint: #919b90;
+  --border-soft: color-mix(in srgb, #ececec 94%, var(--accent) 6%);
+  --text: #1d2023;
+  --text-dim: #5b6065;
+  --text-faint: #91969b;
   --accent: #3c9c1f;
   --accent-strong: #2f8617;
   --accent-soft: rgba(60, 156, 31, 0.12);
@@ -133,6 +143,19 @@
   --accent-soft: rgba(13, 148, 136, 0.12);
   --accent-glow: rgba(13, 148, 136, 0.22);
   --mark: rgba(13, 148, 136, 0.22);
+}
+
+:root[data-theme="dark"][data-accent="slate"] {
+  --accent: #9aa5b1; --accent-strong: #b8c2cd;
+  --accent-soft: rgba(154, 165, 177, 0.14);
+  --accent-glow: rgba(154, 165, 177, 0.35);
+  --mark: rgba(154, 165, 177, 0.35);
+}
+:root[data-theme="light"][data-accent="slate"] {
+  --accent: #5b6672; --accent-strong: #4a545f;
+  --accent-soft: rgba(91, 102, 114, 0.12);
+  --accent-glow: rgba(91, 102, 114, 0.22);
+  --mark: rgba(91, 102, 114, 0.22);
 }
 
 * {
