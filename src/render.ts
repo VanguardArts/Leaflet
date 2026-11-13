@@ -116,11 +116,16 @@ function buildNode(node: Node, depth: number, state: ViewState): BuildResult {
     `;
     if (searching) row.classList.add("auto-open");
 
+    // Wrap the row and its children in a block container so children nest
+    // *vertically* beneath the row (not as a flex item beside it).
+    const wrapper = document.createElement("div");
+    wrapper.className = "node";
+    wrapper.appendChild(row);
     if (childrenBox.childElementCount > 0) {
-      row.appendChild(childrenBox);
+      wrapper.appendChild(childrenBox);
     }
 
-    return { el: row, hasVisible: directMatch || childrenBox.childElementCount > 0 };
+    return { el: wrapper, hasVisible: directMatch || childrenBox.childElementCount > 0 };
   }
 
   // Bookmark
@@ -134,7 +139,7 @@ function buildNode(node: Node, depth: number, state: ViewState): BuildResult {
   row.dataset.type = "bookmark";
   row.dataset.href = node.url;
   row.setAttribute("role", "treeitem");
-  row.style.paddingLeft = `calc(${depth + 1} * var(--indent))`;
+  row.style.paddingLeft = `calc(${depth} * var(--indent))`;
   if (state.selectedId === node.id) row.classList.add("selected");
   if (directMatch) row.classList.add("match");
 
