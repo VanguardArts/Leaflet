@@ -34,6 +34,10 @@ jobs:
     needs: test
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
+    # The release step creates a GitHub Release and uploads assets, so the
+    # GITHUB_TOKEN needs write access to the repository contents.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
