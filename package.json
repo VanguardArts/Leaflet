@@ -1,7 +1,7 @@
 {
   "name": "leaflet",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Leaflet — Your little corner of the internet. A free and open-source bookmark manager by Vanguard Arts Software.",
   "type": "module",
   "license": "GPL-3.0-or-later",

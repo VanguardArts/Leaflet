@@ -31,9 +31,21 @@ leaf on your own tree of the internet.
 
 ## 📦 Install
 
-Prebuilt Linux installers are published on the
-[**Releases**](https://github.com/VanguardArts/Leaflet/releases) page:
+Prebuilt installers for **Windows, macOS, and Linux** are published on the
+[**Releases**](https://github.com/VanguardArts/Leaflet/releases) page.
 
+### 🪟 Windows
+Download the **`.msi`** installer (or **`-setup.exe`**), then run it. Windows
+SmartScreen may warn because Leaflet is unsigned — click **More info → Run
+anyway**.
+
+### 🍎 macOS
+Download the **`.dmg`** for your chip — **Apple Silicon** (M1/M2/M3/M4) or
+**Intel** — open it and drag Leaflet into Applications. Gatekeeper may warn
+because Leaflet is unsigned — right-click → **Open** (or allow it under System
+Settings → Privacy & Security).
+
+### 🐧 Linux
 - **AppImage** — works on any modern distro. Download, make it executable, run:
 
   ```bash
@@ -154,6 +166,7 @@ Installers/bundles for your platform are written to `src-tauri/target/release/bu
 ## 🧱 Tech stack
 
 - **[Tauri 2](https://tauri.app)** — small, secure Rust desktop shell
+  (Windows, macOS, Linux)
 - **TypeScript** (strict) + **Vite** — frontend tooling
 - **Hand-built CSS design system** — no UI framework; a small, auditable,
   dependency-light codebase

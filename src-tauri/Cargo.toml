@@ -1,6 +1,6 @@
 [package]
 name = "leaflet"
-version = "0.1.2"
+version = "0.2.0"
 description = "Leaflet — Your little corner of the internet. A free and open-source bookmark manager by Vanguard Arts Software."
 authors = ["Vanguard Arts Software"]
 edition = "2021"

@@ -4,6 +4,21 @@ All notable changes to Leaflet are documented here. This project follows
 [Semantic Versioning](https://semver.org) and the spirit of
 [Keep a Changelog](https://keepachangelog.com).
 
+## [0.2.0] - 2026-11-14
+
+### Added
+- **Windows and macOS builds.** The release pipeline now cross-compiles native
+  installers for **Windows** (`.msi` / NSIS `.exe`), **macOS** (`.dmg` for both
+  Apple Silicon and Intel), and **Linux** (`.AppImage` / `.deb` / `.rpm`), all
+  uploaded to each release.
+- Windows and macOS install instructions in the README.
+
+### Notes
+- Windows and macOS builds are currently **unsigned**, so Windows SmartScreen
+  and macOS Gatekeeper will show a one-time warning on first launch. This is
+  normal for free/open-source apps that have not purchased a code-signing
+  certificate.
+
 ## [0.1.2] - 2026-11-14
 
 ### Fixed
