@@ -71,6 +71,10 @@ Prefer to build it yourself? See [Getting started](#-getting-started).
 
 ## ✨ Features
 
+- **Clean first run + guided tour** — Leaflet opens to an *empty* library (your
+  links, nothing else — no seed or dummy data). A short, skippable tutorial
+  teaches the essentials and can optionally load a few sample bookmarks to
+  practice with.
 - **Three-zone UI** — a collapsible, draggable tree on the left, a live
   inspector on the right, and a search-and-actions toolbar on top.
 - **Drag & drop** — press and drag **anywhere on a row** (or use the grip
@@ -123,8 +127,9 @@ Prefer to build it yourself? See [Getting started](#-getting-started).
 
 ## 🖼 Screenshots
 
-*Coming soon.* Leaflet ships with a bundled seed library so it opens to a living
-tree, not a blank pane.
+*Coming soon.* Leaflet opens to a clean, empty library — your links, nothing
+else. An optional first-run tour shows you the ropes and can load a few sample
+bookmarks to practice with.
 
 ---
 

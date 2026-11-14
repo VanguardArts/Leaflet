@@ -18,6 +18,7 @@ import {
 } from "./model";
 import { parseNetscape, serializeNetscape } from "./parser";
 import { buildTree, ICON_LEAF, type ViewState } from "./render";
+import { shouldShowOnboarding, showTutorial, type TutorialHooks } from "./tutorial";
 import defaultBookmarksHtml from "./assets/default-bookmarks.html?raw";
 import "./styles.css";
 
@@ -183,13 +184,20 @@ function renderEmptyState(): void {
     empty.className = "empty-state";
     empty.innerHTML = `
       <div class="empty-icon">${ICON_LEAF}</div>
-      <p>No bookmarks yet.</p>
-      <button id="btn-empty-import" class="btn primary">Import bookmarks</button>
+      <p>No bookmarks yet — your little corner starts empty.</p>
+      <div class="empty-actions">
+        <button id="btn-empty-import" class="btn primary">Import bookmarks</button>
+        <button id="btn-empty-tour" class="btn secondary">Take the tour</button>
+      </div>
     `;
     el.appendChild(empty);
     el.querySelector("#btn-empty-import")?.addEventListener("click", (e) => {
       e.stopPropagation();
       openFromDisk();
+    });
+    el.querySelector("#btn-empty-tour")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showTutorial(tutorialHooks());
     });
   }
 }
@@ -746,6 +754,7 @@ function bindToolbarEvents(): void {
   bind("#btn-accent", () => togglePalette());
   bind("#btn-expand", () => expandAll());
   bind("#btn-collapse", () => collapseAll());
+  bind("#btn-help", () => showTutorial(tutorialHooks()));
 }
 
 function collectFolderIds(nodes: Node[], acc: Set<string>): void {
@@ -846,6 +855,7 @@ function buildShell(): void {
         <button id="btn-collapse" class="btn icon-btn" title="Collapse all folders">⊟ Collapse all</button>
         <button id="btn-accent" class="btn icon-btn" title="Color theme"><span class="swatch-dot"></span></button>
         <button id="btn-theme" class="btn icon-btn" title="Toggle theme"><span class="icon">☾</span></button>
+        <button id="btn-help" class="btn icon-btn" title="Take the tour / Help">?</button>
       </div>
       <div id="palette" class="palette" hidden>
         <div class="palette-title">Color theme</div>
@@ -876,6 +886,9 @@ function buildShell(): void {
 }
 
 function loadInitialData(): void {
+  // Leaflet starts with an EMPTY library — no seed or dummy data. We only
+  // restore the user's own autosaved bookmarks. (The tutorial can load the
+  // generic sample set, but only if the user explicitly opts in.)
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     const parsed = parseNetscape(saved);
@@ -884,14 +897,50 @@ function loadInitialData(): void {
       return;
     }
   }
-  if (defaultBookmarksHtml) {
-    const parsed = parseNetscape(defaultBookmarksHtml);
-    if (parsed.length > 0) {
-      forest = parsed;
-      return;
-    }
-  }
   forest = [];
+}
+
+// ---------------------------------------------------------------------------
+// Tutorial hooks (first-run onboarding)
+// ---------------------------------------------------------------------------
+
+function isEmptyLibrary(): boolean {
+  return forest.length === 0;
+}
+
+/** Load the generic sample set so a new user can explore. Undoable. */
+function loadSampleBookmarks(): void {
+  const parsed = parseNetscape(defaultBookmarksHtml);
+  if (parsed.length === 0) return;
+  pushUndo();
+  forest = parsed;
+  selectedId = null;
+  expanded.clear();
+  for (const n of forest) if (isFolder(n)) expanded.add(n.id);
+  markDirty();
+  render();
+}
+
+/** Return to a clean slate (only meaningful right after loading a sample). */
+function startEmptyLibrary(): void {
+  if (forest.length === 0) {
+    render();
+    return;
+  }
+  pushUndo();
+  forest = [];
+  expanded.clear();
+  selectedId = null;
+  markDirty();
+  render();
+}
+
+function tutorialHooks(): TutorialHooks {
+  return {
+    isEmpty: isEmptyLibrary,
+    loadSample: loadSampleBookmarks,
+    startEmpty: startEmptyLibrary,
+  };
 }
 
 function init(): void {
@@ -920,6 +969,12 @@ function init(): void {
   }
 
   render();
+
+  // First run: greet with the tutorial wizard. The library stays empty unless
+  // the user explicitly opts into the sample data on the final step.
+  if (shouldShowOnboarding()) {
+    showTutorial(tutorialHooks());
+  }
 }
 
 if (typeof document !== "undefined") {

@@ -4,6 +4,21 @@ All notable changes to Leaflet are documented here. This project follows
 [Semantic Versioning](https://semver.org) and the spirit of
 [Keep a Changelog](https://keepachangelog.com).
 
+## [0.3.0] - 2026-11-14
+
+### Added
+- **First-run tutorial wizard.** A short, skippable, 6-step tour teaches the
+  tree, drag-and-drop, editing, search, themes, and import/export — with a
+  static demo tree, keyboard navigation (←/→, Enter, Esc), and progress dots.
+- **"?" tour button** in the toolbar and a **"Take the tour"** button on the
+  empty state, so the tutorial can be reopened at any time.
+
+### Changed
+- **Leaflet now starts completely empty.** No seed, sample, or dummy bookmarks
+  are loaded on first launch or install. On the final tour step you can
+  *optionally* load a small generic sample set to practice with (opt-in, and
+  undoable) — but the default is a clean slate.
+
 ## [0.2.0] - 2026-11-14
 
 ### Added
