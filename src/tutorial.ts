@@ -42,6 +42,14 @@ function markOnboarded(): void {
   }
 }
 
+/**
+ * Mark onboarding as seen WITHOUT showing the wizard. Used for returning users
+ * who already have a populated library — they don't need a "start fresh" tour.
+ */
+export function markOnboardingSeen(): void {
+  markOnboarded();
+}
+
 // ---------------------------------------------------------------------------
 // Small inline SVG icon helpers (stroke style, matches the toolbar icons)
 // ---------------------------------------------------------------------------

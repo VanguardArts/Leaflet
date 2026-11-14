@@ -18,7 +18,12 @@ import {
 } from "./model";
 import { parseNetscape, serializeNetscape } from "./parser";
 import { buildTree, ICON_LEAF, type ViewState } from "./render";
-import { shouldShowOnboarding, showTutorial, type TutorialHooks } from "./tutorial";
+import {
+  markOnboardingSeen,
+  shouldShowOnboarding,
+  showTutorial,
+  type TutorialHooks,
+} from "./tutorial";
 import defaultBookmarksHtml from "./assets/default-bookmarks.html?raw";
 import "./styles.css";
 
@@ -970,10 +975,15 @@ function init(): void {
 
   render();
 
-  // First run: greet with the tutorial wizard. The library stays empty unless
-  // the user explicitly opts into the sample data on the final step.
+  // First run: greet with the tutorial wizard, but only on a genuinely empty
+  // library. A returning user who already has bookmarks gets onboarding marked
+  // as seen silently — no "start fresh" tour over their existing data.
   if (shouldShowOnboarding()) {
-    showTutorial(tutorialHooks());
+    if (isEmptyLibrary()) {
+      showTutorial(tutorialHooks());
+    } else {
+      markOnboardingSeen();
+    }
   }
 }
 

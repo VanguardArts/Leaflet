@@ -4,6 +4,15 @@ All notable changes to Leaflet are documented here. This project follows
 [Semantic Versioning](https://semver.org) and the spirit of
 [Keep a Changelog](https://keepachangelog.com).
 
+## [0.3.1] - 2026-11-14
+
+### Changed
+- **The first-run tour now only appears on a genuinely empty library.** A
+  returning user who already has bookmarks (e.g. restored from autosave after an
+  upgrade) is no longer greeted with a "start fresh" wizard; their onboarding is
+  simply marked as seen. The tour can still be opened any time via the "?"
+  button or the empty-state "Take the tour" button.
+
 ## [0.3.0] - 2026-11-14
 
 ### Added
