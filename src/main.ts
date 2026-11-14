@@ -24,6 +24,8 @@ import "./styles.css";
 const STORAGE_KEY = "leaflet.bookmarks.html";
 const THEME_KEY = "leaflet.theme";
 const UNDO_LIMIT = 100;
+const DOUBLE_CLICK_MS = 300;
+const DRAG_THRESHOLD = 5;
 
 type Theme = "light" | "dark";
 type DropPosition = "before" | "inside" | "after";
@@ -43,6 +45,12 @@ let dirty = false;
 let currentFile: string | null = null;
 let draggedId: string | null = null;
 let dropIndicatorEl: HTMLElement | null = null;
+let lastClickId: string | null = null;
+let lastClickTime = 0;
+let potentialDragId: string | null = null;
+let dragStartX = 0;
+let dragStartY = 0;
+let suppressClick = false;
 
 // ---------------------------------------------------------------------------
 // Tauri helpers
@@ -584,13 +592,13 @@ function undo(): void {
 }
 
 // ---------------------------------------------------------------------------
-// Drag & drop (native HTML5 DnD)
+// Drag & drop (pointer events)
 // ---------------------------------------------------------------------------
 
-function nodeIdFromEvent(el: EventTarget | null): string | null {
-  if (!(el instanceof HTMLElement)) return null;
-  const row = el.closest<HTMLElement>(".row[data-id]");
-  return row?.dataset.id ?? null;
+function rowFromPoint(x: number, y: number): HTMLElement | null {
+  const el = document.elementFromPoint(x, y);
+  if (!el) return null;
+  return el.closest<HTMLElement>(".row[data-id]");
 }
 
 function dropPositionFor(row: HTMLElement, clientY: number): DropPosition {
@@ -619,10 +627,20 @@ function bindTreeEvents(): void {
   const container = treeEl();
 
   container.addEventListener("click", (e) => {
+    // Swallow the click that follows a completed drag so it doesn't select/open.
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
     const target = e.target as HTMLElement;
     const row = target.closest<HTMLElement>(".row[data-id]");
     if (!row) return;
     const id = row.dataset.id!;
+    const now = Date.now();
+    const isDouble = lastClickId === id && now - lastClickTime < DOUBLE_CLICK_MS;
+    lastClickId = id;
+    lastClickTime = now;
+
     // Clicking the twisty (or folder icon) toggles expansion.
     if (target.closest(".twisty")) {
       if (row.dataset.type === "folder") {
@@ -631,42 +649,56 @@ function bindTreeEvents(): void {
         return;
       }
     }
+
+    // Detect the second click manually and treat it as a double-click. The
+    // native `dblclick` event does not fire reliably in the Linux WebKitGTK
+    // webview because the single-click handler re-renders the row between clicks.
+    if (isDouble) {
+      const node = findById(forest, id)?.node;
+      if (node) {
+        if (node.type === "folder") toggleFolder(id);
+        else void openExternal(node);
+      }
+      return;
+    }
+
     select(id);
   });
 
-  container.addEventListener("dblclick", (e) => {
+  // Drag & drop: press anywhere on a row (except the expand twisty or an
+  // editing field) and move to reorder. The drag only engages after a small
+  // movement threshold, so an ordinary click still selects and a double-click
+  // still opens. Native HTML5 DnD is unreliable in the Linux WebKitGTK
+  // webview, so this is driven by mouse events + hit-testing instead.
+  container.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
     const target = e.target as HTMLElement;
+    if (target.closest(".twisty") || isEditableTarget(target)) return;
     const row = target.closest<HTMLElement>(".row[data-id]");
     if (!row) return;
-    const id = row.dataset.id!;
-    const node = findById(forest, id)?.node;
-    if (!node) return;
-    if (node.type === "folder") {
-      toggleFolder(id);
-    } else {
-      openExternal(node);
-    }
+    potentialDragId = row.dataset.id!;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
   });
 
-  container.addEventListener("dragstart", (e) => {
-    const id = nodeIdFromEvent(e.target);
-    if (!id) return;
-    const row = e.target instanceof HTMLElement ? e.target.closest<HTMLElement>(".row") : null;
-    draggedId = id;
-    row?.classList.add("dragging");
-    e.dataTransfer?.setData("text/plain", id);
-    if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
-  });
-
-  container.addEventListener("dragover", (e) => {
-    const row = (e.target as HTMLElement).closest?.<HTMLElement>(".row[data-id]") ?? null;
-    if (!row || !draggedId) {
-      e.preventDefault();
-      if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-      return;
+  document.addEventListener("mousemove", (e) => {
+    if (draggedId === null) {
+      if (potentialDragId === null) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      draggedId = potentialDragId;
+      potentialDragId = null;
+      document
+        .querySelector<HTMLElement>(`.row[data-id="${CSS.escape(draggedId)}"]`)
+        ?.classList.add("dragging");
     }
     e.preventDefault();
-    if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+    const row = rowFromPoint(e.clientX, e.clientY);
+    if (!row || row.dataset.id === draggedId) {
+      clearDropIndicator();
+      return;
+    }
     const pos = dropPositionFor(row, e.clientY);
     if (dropIndicatorEl && dropIndicatorEl !== row) {
       dropIndicatorEl.classList.remove("drop-before", "drop-inside", "drop-after");
@@ -676,41 +708,22 @@ function bindTreeEvents(): void {
     dropIndicatorEl = row;
   });
 
-  container.addEventListener("dragleave", (e) => {
-    const row = (e.target as HTMLElement).closest?.<HTMLElement>(".row[data-id]") ?? null;
-    if (row && row === dropIndicatorEl) {
-      row.classList.remove("drop-before", "drop-inside", "drop-after");
-      dropIndicatorEl = null;
-    }
-  });
-
-  container.addEventListener("drop", (e) => {
-    e.preventDefault();
-    const row = (e.target as HTMLElement).closest?.<HTMLElement>(".row[data-id]") ?? null;
-    clearDropIndicator();
-    const id = draggedId;
-    draggedId = null;
-    document.querySelectorAll(".row.dragging").forEach((r) => r.classList.remove("dragging"));
-    if (!id) return;
-    if (!row) {
-      // Dropped on empty space → move to root.
-      pushUndo();
-      const node = removeNode(forest, id);
-      if (node) {
-        forest.push(node);
-        markDirty();
-        render();
+  document.addEventListener("mouseup", (e) => {
+    if (draggedId !== null) {
+      const id = draggedId;
+      const row = rowFromPoint(e.clientX, e.clientY);
+      clearDropIndicator();
+      draggedId = null;
+      potentialDragId = null;
+      suppressClick = true;
+      document.querySelectorAll(".row.dragging").forEach((r) => r.classList.remove("dragging"));
+      if (row && row.dataset.id !== id) {
+        const pos = dropPositionFor(row, e.clientY);
+        moveNode(id, row.dataset.id!, pos);
       }
       return;
     }
-    const pos = dropPositionFor(row, e.clientY);
-    moveNode(id, row.dataset.id!, pos);
-  });
-
-  container.addEventListener("dragend", () => {
-    clearDropIndicator();
-    document.querySelectorAll(".row.dragging").forEach((r) => r.classList.remove("dragging"));
-    draggedId = null;
+    potentialDragId = null;
   });
 }
 

@@ -112,7 +112,7 @@ function buildNode(node: Node, depth: number, state: ViewState): BuildResult {
       <span class="icon">${isExplicitOpen ? ICON_FOLDER_OPEN : ICON_FOLDER}</span>
       <span class="title">${highlight(node.title, searching ? state.query : "")}</span>
       <span class="count">${node.children.length}</span>
-      <span class="drag-handle" draggable="true">${ICON_DRAG}</span>
+      <span class="drag-handle">${ICON_DRAG}</span>
     `;
     if (searching) row.classList.add("auto-open");
 
@@ -145,10 +145,10 @@ function buildNode(node: Node, depth: number, state: ViewState): BuildResult {
 
   row.innerHTML = `
     <span class="twisty"></span>
-    <span class="icon">${(node.icon && node.icon.startsWith("data:")) ? `<img class="favicon" src="${esc(node.icon)}" alt="" />` : ICON_LINK}</span>
+    <span class="icon">${(node.icon && node.icon.startsWith("data:")) ? `<img class="favicon" src="${esc(node.icon)}" alt="" draggable="false" />` : ICON_LINK}</span>
     <span class="title">${highlight(node.title, searching ? state.query : "")}</span>
     <span class="href">${esc(node.url)}</span>
-    <span class="drag-handle" draggable="true">${ICON_DRAG}</span>
+    <span class="drag-handle">${ICON_DRAG}</span>
   `;
 
   return { el: row, hasVisible: true };

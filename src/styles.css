@@ -561,8 +561,8 @@ body {
 .row .drag-handle {
   width: 16px;
   height: 16px;
-  flex: 0 0 0;
-  opacity: 0;
+  flex: 0 0 16px;
+  opacity: 0.45;
   color: var(--text-faint);
   cursor: grab;
   transition: opacity 0.12s var(--ease);
@@ -572,6 +572,9 @@ body {
 }
 .row:hover .drag-handle {
   opacity: 1;
+}
+.row:not(.folder) .twisty {
+  pointer-events: none;
 }
 .row .drag-handle svg {
   width: 100%;

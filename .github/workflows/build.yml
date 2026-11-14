@@ -57,5 +57,17 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "Leaflet ${{ github.ref_name }}"
-          releaseBody: "See the assets below to download this release."
+          releaseBody: |
+            ## Install Leaflet ${{ github.ref_name }}
+
+            Download the package for your Linux distro from the assets below:
+
+            - **`.AppImage`** — distro-agnostic. Download, `chmod +x`, then run it.
+            - **`.deb`** — Debian / Ubuntu / Mint: `sudo apt install ./Leaflet_*_amd64.deb`
+            - **`.rpm`** — Fedora / RHEL / openSUSE: `sudo dnf install ./Leaflet-*.x86_64.rpm`
+
+            **Usage** — see the [README](https://github.com/VanguardArts/Leaflet#readme).
+            **What's new** — see the [CHANGELOG](https://github.com/VanguardArts/Leaflet/blob/main/CHANGELOG.md).
+
+            Leaflet is free and open source ([GPL-3.0-or-later](https://github.com/VanguardArts/Leaflet/blob/main/LICENSE)). If it is useful to you, consider [sponsoring](https://github.com/sponsors/VanguardArts).
           releaseDraft: false

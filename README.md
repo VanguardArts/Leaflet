@@ -29,12 +29,41 @@ leaf on your own tree of the internet.
 
 ---
 
+## 📦 Install
+
+Prebuilt Linux installers are published on the
+[**Releases**](https://github.com/VanguardArts/Leaflet/releases) page:
+
+- **AppImage** — works on any modern distro. Download, make it executable, run:
+
+  ```bash
+  chmod +x Leaflet_*_amd64.AppImage
+  ./Leaflet_*_amd64.AppImage
+  ```
+
+- **Debian / Ubuntu / Mint** (`.deb`):
+
+  ```bash
+  sudo apt install ./Leaflet_*_amd64.deb
+  ```
+
+- **Fedora / RHEL / openSUSE** (`.rpm`):
+
+  ```bash
+  sudo dnf install ./Leaflet-*.x86_64.rpm
+  ```
+
+Prefer to build it yourself? See [Getting started](#-getting-started).
+
+---
+
 ## ✨ Features
 
 - **Three-zone UI** — a collapsible, draggable tree on the left, a live
   inspector on the right, and a search-and-actions toolbar on top.
-- **Drag & drop** — reorder, nest, and move folders and bookmarks with visual
-  drop indicators (before / inside / after).
+- **Drag & drop** — press and drag **anywhere on a row** (or use the grip
+  handle) to reorder and nest folders and bookmarks, with visual drop
+  indicators (before / inside / after).
 - **Instant search** — filter the whole tree, auto-expanding matching folders
   and highlighting hits.
 - **Full editing** — add, rename, delete, and re-URL bookmarks and folders;
@@ -46,8 +75,9 @@ leaf on your own tree of the internet.
   (Tauri build), with a browser fallback for local development.
 - **Auto-save + undo** — never lose a change, and step back through history
   (<kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Z</kbd>).
-- **Dark & light themes** — a calm, leaf-green design system that is easy on
-  the eyes.
+- **Dark & light themes + 7 accent palettes** — Leaf (green), Ocean, Berry,
+  Ember, Rose, Cyan, and Slate — with matching tinted surfaces and
+  color-aware link colors, easy on the eyes in both modes.
 - **Keyboard shortcuts** — search, save, open, undo, rename, delete, open-link.
 
 ### Keyboard shortcuts
@@ -61,6 +91,21 @@ leaf on your own tree of the internet.
 | Rename | <kbd>F2</kbd> |
 | Delete | <kbd>Delete</kbd> |
 | Open link | <kbd>Enter</kbd> (bookmark selected) |
+
+---
+
+## 🖱 Using the tree
+
+- **Select** — click a row; its details open in the inspector on the right.
+- **Open a bookmark** — double-click it, or select it and press <kbd>Enter</kbd>.
+- **Expand / collapse a folder** — click the chevron, or double-click the folder.
+- **Reorder / nest** — press and hold on a row and drag it (or use the 6-dot
+  grip on the right). A line shows where it will land: **above**, **below**, or
+  **inside** a folder.
+- **Rename** — select a row and press <kbd>F2</kbd> (or double-click it), then
+  type the new name and press <kbd>Enter</kbd>.
+- **Undo** — <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Z</kbd> steps back through your
+  changes (up to 100 steps).
 
 ---
 
