@@ -127,9 +127,31 @@ Prefer to build it yourself? See [Getting started](#-getting-started).
 
 ## 🖼 Screenshots
 
-*Coming soon.* Leaflet opens to a clean, empty library — your links, nothing
-else. An optional first-run tour shows you the ropes and can load a few sample
-bookmarks to practice with.
+<p align="center">
+  <img src="docs/screenshots/hero-dark.png" alt="Leaflet — dark theme" width="820" />
+</p>
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/hero-light.png" alt="Leaflet — light theme" /></td>
+    <td><img src="docs/screenshots/accent-ocean-dark.png" alt="Leaflet — Ocean accent, dark" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Light theme</sub></td>
+    <td align="center"><sub>Ocean accent (dark) — one of 7 palettes</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/tour-choice.png" alt="First-run tour — choose your start" /></td>
+    <td><img src="docs/screenshots/empty-state.png" alt="Leaflet — clean empty library" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>First-run tour — optional sample data</sub></td>
+    <td align="center"><sub>A clean, empty start</sub></td>
+  </tr>
+</table>
+
+<sub>Screenshots show a small set of generic sample bookmarks — never any real
+user data. Leaflet ships and launches empty.</sub>
 
 ---
 
