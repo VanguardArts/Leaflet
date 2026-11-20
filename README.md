@@ -259,3 +259,8 @@ Leaflet is free software: you can redistribute and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,
 either version 3 of the License, or (at your option) any later version.
 Derivative works must remain open under the same license.
+
+## Vanguard Arts
+
+- **Website:** https://vanguardarts.vip/
+- **Support / contact:** [https://vanguardarts.vip/contact](https://vanguardarts.vip/contact) (contact form)
