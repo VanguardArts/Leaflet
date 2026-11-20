@@ -4,6 +4,11 @@ All notable changes to Leaflet are documented here. This project follows
 [Semantic Versioning](https://semver.org) and the spirit of
 [Keep a Changelog](https://keepachangelog.com).
 
+## [0.3.2] - 2026-11-21
+
+### Changed
+- Added real application screenshots to the README.
+
 ## [0.3.1] - 2026-11-14
 
 ### Changed
